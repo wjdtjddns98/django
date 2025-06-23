@@ -43,7 +43,8 @@ CUSTOM_USER_APPS = [
     "boards.apps.BoardsConfig",
     "users.apps.UsersConfig",
     "rest_framework",
-    "feeds.apps.FeedsConfig"
+    "feeds.apps.FeedsConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 
