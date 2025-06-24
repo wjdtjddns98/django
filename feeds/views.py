@@ -21,7 +21,7 @@ class Feeds(APIView):
         #유효성 검사
         if serializer.is_valid():
             serializer.save(user=request.user)
-            print(serializer.data)
+            # print(serializer.data)
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=400)
@@ -35,6 +35,7 @@ class FeedDetail(APIView):
             raise NotFound
 
     def get(self, request, feed_id):
+
         feed = self.get_object(feed_id)
 
         # feed (object) -> JSON(시리얼라이즈) 직렬화
