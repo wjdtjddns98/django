@@ -4,6 +4,12 @@ from .models import Review
 from .serializer import ReviewSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from django.shortcuts import get_object_or_404
+
+
+
+
+
 
 
 class Reviews(APIView):
@@ -17,10 +23,7 @@ class Reviews(APIView):
 
 class ReviewDetail(APIView):
     def get(self, request, review_id):
-        try:
-            review = Review.objects.get(id=review_id)
-        except Review.DoesNotExist:
-            raise NotFound("Review not found")
+        review = get_object_or_404(Review, id=review_id)
 
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
