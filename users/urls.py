@@ -1,8 +1,15 @@
 from django.urls import path
+
+import users.views
 from . import views
 from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path('', views.Users.as_view()),
     path("myinfo/", views.MyInfo.as_view()),
-    path("getToken", obtain_auth_token)
+
+    #Authentication
+    path("getToken", obtain_auth_token),  #DRF Token
+    path("login", views.Login.as_view()),
+    path("logout", views.Logout.as_view()),  #DRF Token logout
+    #Django Session login
 ]

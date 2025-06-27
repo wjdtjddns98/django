@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from .serializers import MyInfoUserSerializer
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.exceptions import ParseError
+from django.contrib.auth import authenticate, login, logout
+from rest_framework import status
 
 from rest_framework.authentication import TokenAuthentication #어떤 유저인지 식별하기 위한 api, 사용자 인증
 from rest_framework.permissions import IsAuthenticated #인증된 유저만 접근 가능하게 하는 api, 권한 부여
@@ -34,8 +36,6 @@ class Users(APIView):
 
         #the other -> 비번 외 다른 데이터들
 
-class User(APIView):
-    pass
 class MyInfo(APIView):
     authentication_classes = [TokenAuthentication]  # 토큰 인증 사용
     permission_classes = [IsAuthenticated]  # 인증된 사용자만 접근 가능
@@ -55,3 +55,29 @@ class MyInfo(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=400)
+
+class Login(APIView):
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        if not username or not password:
+            raise ParseError("Invalid username or password")
+
+        user = authenticate(request ,username=username, password=password)
+        if user:
+            login(request,user)
+
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class Logout(APIView):
+    permisson_classes = [IsAuthenticated]
+
+    def post(self, reqeust):
+
+
+        print("header : ", reqeust.headers)
+        logout(reqeust)
+        return Response(status=status.HTTP_200_OK)
