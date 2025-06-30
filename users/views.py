@@ -112,7 +112,7 @@ class JWTLogin(APIView):
 
 from config.authentication import JWTAuthentication
 class UserDetailView(APIView):
-    authentication_classes = [JWTAuthentication] #JWT 인증 사용
+    # authentication_classes = [JWTAuthentication] #JWT 인증 사용
     permission_classes = [IsAuthenticated] #인증된 사용자만 접근 가능
 
     def get(self, request):

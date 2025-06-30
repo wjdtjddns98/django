@@ -46,6 +46,7 @@ CUSTOM_USER_APPS = [
     "feeds.apps.FeedsConfig",
     "reviews.apps.ReviewsConfig",
     "rest_framework.authtoken",
+    "rest_framework_simplejwt",
 ]
 
 
@@ -141,6 +142,17 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'config.authentication.JWTAuthentication',  # JWT 인증 클래스
     ],
+}
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": "SECRET",
+    "AUTH_HEADER_TYPES": (
+        "Bearer",),
 }
